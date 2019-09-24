@@ -3,6 +3,9 @@
 // use RobRichards\WsePhp\WSSESoap;
 // use RobRichards\XMLSecLibs\XMLSecurityKey;
 require __DIR__ . '/vendor/autoload.php';
+use RobRichards\WsePhp\WSASoap;
+use RobRichards\WsePhp\WSSESoap;
+
 require('extendSoapClass.php');
 
 set_time_limit(0);
@@ -15,8 +18,7 @@ define('CERT_FILE', 'all.pem');
 define('WSDL_VALIDATEDEVICE', 'https://webservicesgateway.sprint.com:444/services/mvno/WholesaleQueryDeviceInfoService/v1?wsdl');
 define('DOREQUEST_VALIDATEDEVICE', 'https://webservicesgateway.sprint.com:444/services/mvno/WholesaleQueryDeviceInfoService/v1');
 
-use RobRichards\WsePhp\WSASoap;
-use RobRichards\WsePhp\WSSESoap;
+
 
 
 function SprintApiSoapExecute($xml_file_name,$requests,$ACTION='querySubscription',$wsdl='',$dorequestPath='')
