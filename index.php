@@ -3,7 +3,7 @@
 // use RobRichards\WsePhp\WSSESoap;
 // use RobRichards\XMLSecLibs\XMLSecurityKey;
 require __DIR__ . '/vendor/autoload.php';
-require('ExtendSoapClass.php');
+require('extendSoapClass.php');
 
 set_time_limit(0);
 ini_set('display_errors', 1);
