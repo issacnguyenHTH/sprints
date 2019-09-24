@@ -1,55 +1,27 @@
 <?php
+// use RobRichards\WsePhp\WSASoap;
+// use RobRichards\WsePhp\WSSESoap;
+// use RobRichards\XMLSecLibs\XMLSecurityKey;
+
 set_time_limit(0);
-require __DIR__ . '\vendor\autoload.php';
-
-use RobRichards\WsePhp\WSASoap;
-use RobRichards\WsePhp\WSSESoap;
-use RobRichards\XMLSecLibs\XMLSecurityKey;
-
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL); 
+######################################PHP Version 5.4.45
 define('PRIVATE_KEY', 'all.pem');
 define('CERT_FILE', 'all.pem');
 define('WSDL_VALIDATEDEVICE', 'https://webservicesgateway.sprint.com:444/services/mvno/WholesaleQueryDeviceInfoService/v1?wsdl');
 define('DOREQUEST_VALIDATEDEVICE', 'https://webservicesgateway.sprint.com:444/services/mvno/WholesaleQueryDeviceInfoService/v1');
 
-class MySoap extends SoapClient
+require('src/WSASoap.php');
+require('src/WSESoap.php');
+require('extendSoapClass.php');
+
+function SprintApiSoapExecute($xml_file_name,$requests,$ACTION='querySubscription',$wsdl='',$dorequestPath='')
 {
-    function __doRequest($request, $location, $saction, $version)
-    {
-        $dom = new DOMDocument();
-        $dom->loadXML($request);
-        echo 'test';
-        $objWSA = new WSASoap($dom);
-        $objWSA->addAction($saction);
-        $objWSA->addTo($location);
-        $objWSA->addMessageID();
-        $objWSA->addReplyTo();
-
-        $dom = $objWSA->getDoc();
-
-
-
-        $objWSSE = new WSSESoap($dom);
-        /* Sign all headers to include signing the WS-Addressing headers */
-        $objWSSE->signAllHeaders = true;
-
-        $objWSSE->addTimestamp();
-
-        /* create new XMLSec Key using RSA SHA-1 and type is private key */
-        $objKey = new XMLSecurityKey(XMLSecurityKey::RSA_SHA1, array('type' => 'private'));
-
-        /* load the private key from file - last arg is bool if key in file (true) or is string (FALSE) */
-        $objKey->loadKey(PRIVATE_KEY, true);
-
-        /* Sign the message - also signs appropraite WS-Security items */
-        $objWSSE->signSoapDoc($objKey);
-
-        /* Add certificate (BinarySecurityToken) to the message and attach pointer to Signature */
-        $token = $objWSSE->addBinaryToken(file_get_contents(CERT_FILE));
-        $objWSSE->attachTokentoSig($token);
-
-        $request = $objWSSE->saveXML();
-        return parent::__doRequest($request, $location, $saction, $version);
-    }
+  $sc = new mySoap($wsdl);
+  $content = $sc->__doRequest_main($requests,$dorequestPath,$ACTION,SOAP_1_1);
+  return $content;
 }
 
 $header="<soapenv:Header>
@@ -69,38 +41,28 @@ $header="<soapenv:Header>
         </m:trackingMessageHeader>
      </m:wsMessageHeader>
   </soapenv:Header>";
-
 $requests = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:m=\"http://integration.sprint.com/common/header/WSMessageHeader/v2\" xmlns:whol=\"http://integration.sprint.com/interfaces/wholesaleValidateDevice/v3/wholesaleValidateDeviceV3.xsd\">".$header."
-		 <soapenv:Body>
-		  <whol:wholesaleValidateDeviceV3>
-			 <whol:deviceInfo>
-				<whol:deviceDetailInfo>
-				   <whol:esnMeidDec>270113180109643752</whol:esnMeidDec>
-				</whol:deviceDetailInfo>
-			 </whol:deviceInfo>
-			 <whol:resellerPartnerId>2015080801</whol:resellerPartnerId>
-		  </whol:wholesaleValidateDeviceV3>
-	   </soapenv:Body>
-	</soapenv:Envelope>";
+     <soapenv:Body>
+      <whol:wholesaleValidateDeviceV3>
+       <whol:deviceInfo>
+        <whol:deviceDetailInfo>
+           <whol:esnMeidDec>256691840802381621</whol:esnMeidDec>
+        </whol:deviceDetailInfo>
+       </whol:deviceInfo>
+       <whol:resellerPartnerId>2015080801</whol:resellerPartnerId>
+      </whol:wholesaleValidateDeviceV3>
+     </soapenv:Body>
+  </soapenv:Envelope>";
 
-//$wsdl = '<wsdl location>';
-$soapAction = 'WholesaleValidateDeviceV3';
+
+// echo "Request <hr>";
+ 
+// echo $requests;
+
 $REFERENCENUMBER= 'ValidateDevice_2348u23498723498';
+$soapAction = $ACTION='WholesaleValidateDeviceV3';
 $responseAction = 'WHOLESALEVALIDATEDEVICEV3RESPONSE';
 $WSDL_VALIDATEDEVICEVAL=$wsdl='https://webservicesgateway.sprint.com:444/services/mvno/WholesaleQueryDeviceInfoService/v1?wsdl';
 $DOREQUEST_VALIDATEDEVICEVAL=$dorequestPath='https://webservicesgateway.sprint.com:444/services/mvno/WholesaleQueryDeviceInfoService/v1';
-
-echo '<p>requests:</p>';
-echo $requests;
-echo '<p>dorequestPath:</p>';
-echo $dorequestPath;
-echo '<p>soapAction:</p>';
-echo $soapAction;
-echo '<br>-------------------------<br>';
-
-$sc = new MySoap($wsdl);
-
-var_dump($sc); die();
-$content = $sc->__doRequest($requests,$dorequestPath,$soapAction,SOAP_1_1);
-
-var_dump($content);
+//echo "Response <hr>";
+echo $SyncXML = SprintApiSoapExecute('',$requests,$soapAction,WSDL_VALIDATEDEVICE,DOREQUEST_VALIDATEDEVICE);
