@@ -2,6 +2,7 @@
 require __DIR__ . '/vendor/autoload.php';
 use RobRichards\WsePhp\WSASoap;
 use RobRichards\WsePhp\WSSESoap;
+use RobRichards\XMLSecLibs\XMLSecurityKey;
 
 class mySoap extends SoapClient {
 
