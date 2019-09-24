@@ -1,4 +1,8 @@
 <?php
+require __DIR__ . '/vendor/autoload.php';
+use RobRichards\WsePhp\WSASoap;
+use RobRichards\WsePhp\WSSESoap;
+
 class mySoap extends SoapClient {
 
    function __doRequest_main($request, $location, $saction, $version) {
