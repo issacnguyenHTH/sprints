@@ -69,4 +69,256 @@ $responseAction = 'WHOLESALEVALIDATEDEVICEV3RESPONSE';
 $WSDL_VALIDATEDEVICEVAL=$wsdl='https://webservicesgateway.sprint.com:444/services/mvno/WholesaleQueryDeviceInfoService/v1?wsdl';
 $DOREQUEST_VALIDATEDEVICEVAL=$dorequestPath='https://webservicesgateway.sprint.com:444/services/mvno/WholesaleQueryDeviceInfoService/v1';
 //echo "Response <hr>";
-echo $SyncXML = SprintApiSoapExecute('',$requests,$soapAction,WSDL_VALIDATEDEVICE,DOREQUEST_VALIDATEDEVICE);
+$SyncXML = SprintApiSoapExecute('',$requests,$soapAction,WSDL_VALIDATEDEVICE,DOREQUEST_VALIDATEDEVICE);
+
+$doc = new \DOMDocument();
+$doc->loadXML($SyncXML);
+$result = [];
+        
+        if ($doc->getElementsByTagName('Fault')->item(0)):
+            if ($doc->getElementsByTagName('faultcode')->item(0)):
+                $result['error']['faultcode'] = $doc->getElementsByTagName('faultcode')->item(0)->nodeValue;
+            else:
+                $result['error']['faultcode'] = null;
+            endif;
+            if ($doc->getElementsByTagName('faultstring')->item(0)):
+                $result['error']['faultstring'] = $doc->getElementsByTagName('faultstring')->item(0)->nodeValue;
+            else:
+                $result['error']['faultstring'] = null;
+            endif;
+            if ($doc->getElementsByTagName('providerErrorCode')->item(0)):
+                $result['error']['providerErrorCode'] = $doc->getElementsByTagName('providerErrorCode')->item(0)->nodeValue;
+            else:
+                $result['error']['providerErrorCode'] = null;
+            endif;
+            if ($doc->getElementsByTagName('providerErrorText')->item(0)):
+                $result['error']['providerErrorText'] = $doc->getElementsByTagName('providerErrorText')->item(0)->nodeValue;
+            else:
+                $result['error']['providerErrorText'] = null;
+            endif;
+            if ($doc->getElementsByTagName('availabilityTypeCode')->item(0)):
+                $result['availabilityTypeCode'] = $doc->getElementsByTagName('availabilityTypeCode')->item(0)->nodeValue;
+            else:
+                $result['availabilityTypeCode'] = null;
+            endif;
+            if ($doc->getElementsByTagName('notAvailableReasonCode')->item(0)):
+                $result['notAvailableReasonCode'] = $doc->getElementsByTagName('notAvailableReasonCode')->item(0)->nodeValue;
+            else:
+                $result['notAvailableReasonCode'] = null;
+            endif;
+            if ($doc->getElementsByTagName('validationMessage')->item(0)):
+                $result['validationMessage'] = $doc->getElementsByTagName('validationMessage')->item(0)->nodeValue;
+            else:
+                $result['validationMessage'] = null;
+            endif;
+            if ($doc->getElementsByTagName('manufacturerName')->item(0)):
+                $result['manufacturerName'] = $doc->getElementsByTagName('manufacturerName')->item(0)->nodeValue;
+            else:
+                $result['manufacturerName'] = null;
+            endif;
+            if ($doc->getElementsByTagName('modelName')->item(0)):
+                $result['modelName'] = $doc->getElementsByTagName('modelName')->item(0)->nodeValue;
+            else:
+                $result['modelName'] = null;
+            endif;
+            if ($doc->getElementsByTagName('freqMode')->item(0)):
+                $result['freqMode'] = $doc->getElementsByTagName('freqMode')->item(0)->nodeValue;
+            else:
+                $result['freqMode'] = null;
+            endif;
+            if ($doc->getElementsByTagName('equipmentFreqTypeCode')->item(0)):
+                $result['equipmentFreqTypeCode'] = $doc->getElementsByTagName('equipmentFreqTypeCode')->item(0)->nodeValue;
+            else:
+                $result['equipmentFreqTypeCode'] = null;
+            endif;
+            if ($doc->getElementsByTagName('modelNumber')->item(0)):
+                $result['modelNumber'] = $doc->getElementsByTagName('modelNumber')->item(0)->nodeValue;
+            else:
+                $result['modelNumber'] = null;
+            endif;
+            if ($doc->getElementsByTagName('esnMeidHex')->item(0)):
+                $result['esnMeidHex'] = $doc->getElementsByTagName('esnMeidHex')->item(0)->nodeValue;
+            else:
+                $result['esnMeidHex'] = null;
+            endif;
+            if ($doc->getElementsByTagName('deviceType')->item(0)):
+                $result['deviceType'] = $doc->getElementsByTagName('deviceType')->item(0)->nodeValue;
+            else:
+                $result['deviceType'] = null;
+            endif;
+            if ($doc->getElementsByTagName('activationStatus')->item(0)):
+                $result['activationStatus'] = $doc->getElementsByTagName('activationStatus')->item(0)->nodeValue;
+            else:
+                $result['activationStatus'] = null;
+            endif;
+            if ($doc->getElementsByTagName('deviceFedMetInd')->item(0)):
+                $result['deviceFedMetInd'] = $doc->getElementsByTagName('deviceFedMetInd')->item(0)->nodeValue;
+            else:
+                $result['deviceFedMetInd'] = null;
+            endif;
+            if ($doc->getElementsByTagName('pocSwapInd')->item(0)):
+                if ($doc->getElementsByTagName('pocSwapInd')->item(0)->nodeValue = 'true'):
+                    $result['pocSwapInd'] = 1;
+                else:
+                    $result['pocSwapInd'] = 0;
+                endif;
+            else:
+                $result['pocSwapInd'] = null;
+            endif;
+            if ($doc->getElementsByTagName('iccId')->item(0)):
+                $result['iccId'] = $doc->getElementsByTagName('iccId')->item(0)->nodeValue;
+            else:
+                $result['iccId'] = null;
+            endif;
+            if ($doc->getElementsByTagName('uiccImsi')->item(0)):
+                $result['uiccImsi'] = $doc->getElementsByTagName('uiccImsi')->item(0)->nodeValue;
+            else:
+                $result['uiccImsi'] = null;
+            endif;
+            if ($doc->getElementsByTagName('uiccSku')->item(0)):
+                $result['uiccSku'] = $doc->getElementsByTagName('uiccSku')->item(0)->nodeValue;
+            else:
+                $result['uiccSku'] = null;
+            endif;
+            if ($doc->getElementsByTagName('uiccAvailabilityCode')->item(0)):
+                $result['uiccAvailabilityCode'] = $doc->getElementsByTagName('uiccAvailabilityCode')->item(0)->nodeValue;
+            else:
+                $result['uiccAvailabilityCode'] = null;
+            endif;
+            if ($doc->getElementsByTagName('uiccNotAvailableReasonCode')->item(0)):
+
+                $result['uiccNotAvailableReasonCode'] = $doc->getElementsByTagName('uiccNotAvailableReasonCode')->item(0)->nodeValue;
+            else:
+                $result['uiccNotAvailableReasonCode'] = null;
+            endif;
+            if ($doc->getElementsByTagName('uiccCompatibility')->item(0)):
+                $result['uiccCompatibility'] = $doc->getElementsByTagName('uiccCompatibility')->item(0)->nodeValue;
+            else:
+                $result['uiccCompatibility'] = null;
+            endif;
+            if ($doc->getElementsByTagName('uiccType')->item(0)):
+                $result['uiccType'] = $doc->getElementsByTagName('uiccType')->item(0)->nodeValue;
+            else:
+                $result['uiccType'] = null;
+            endif;
+            if ($doc->getElementsByTagName('actionCode')->item(0)):
+                $result['actionCode'] = $doc->getElementsByTagName('actionCode')->item(0)->nodeValue;
+            else:
+                $result['actionCode'] = null;
+            endif;
+        else:
+            if ($doc->getElementsByTagName('availabilityTypeCode')->item(0)):
+                $result['availabilityTypeCode'] = $doc->getElementsByTagName('availabilityTypeCode')->item(0)->nodeValue;
+            else:
+                $result['availabilityTypeCode'] = null;
+            endif;
+            if ($doc->getElementsByTagName('notAvailableReasonCode')->item(0)):
+                $result['notAvailableReasonCode'] = $doc->getElementsByTagName('notAvailableReasonCode')->item(0)->nodeValue;
+            else:
+                $result['notAvailableReasonCode'] = null;
+            endif;
+            if ($doc->getElementsByTagName('validationMessage')->item(0)):
+                $result['validationMessage'] = $doc->getElementsByTagName('validationMessage')->item(0)->nodeValue;
+            else:
+                $result['validationMessage'] = null;
+            endif;
+            if ($doc->getElementsByTagName('manufacturerName')->item(0)):
+                $result['manufacturerName'] = $doc->getElementsByTagName('manufacturerName')->item(0)->nodeValue;
+            else:
+                $result['manufacturerName'] = null;
+            endif;
+            if ($doc->getElementsByTagName('modelName')->item(0)):
+                $result['modelName'] = $doc->getElementsByTagName('modelName')->item(0)->nodeValue;
+            else:
+                $result['modelName'] = null;
+            endif;
+            if ($doc->getElementsByTagName('freqMode')->item(0)):
+                $result['freqMode'] = $doc->getElementsByTagName('freqMode')->item(0)->nodeValue;
+            else:
+                $result['freqMode'] = null;
+            endif;
+            if ($doc->getElementsByTagName('equipmentFreqTypeCode')->item(0)):
+                $result['equipmentFreqTypeCode'] = $doc->getElementsByTagName('equipmentFreqTypeCode')->item(0)->nodeValue;
+            else:
+                $result['equipmentFreqTypeCode'] = null;
+            endif;
+            if ($doc->getElementsByTagName('modelNumber')->item(0)):
+                $result['modelNumber'] = $doc->getElementsByTagName('modelNumber')->item(0)->nodeValue;
+            else:
+                $result['modelNumber'] = null;
+            endif;
+            if ($doc->getElementsByTagName('esnMeidHex')->item(0)):
+                $result['esnMeidHex'] = $doc->getElementsByTagName('esnMeidHex')->item(0)->nodeValue;
+            else:
+                $result['esnMeidHex'] = null;
+            endif;
+            if ($doc->getElementsByTagName('deviceType')->item(0)):
+                $result['deviceType'] = $doc->getElementsByTagName('deviceType')->item(0)->nodeValue;
+            else:
+                $result['deviceType'] = null;
+            endif;
+            if ($doc->getElementsByTagName('activationStatus')->item(0)):
+                $result['activationStatus'] = $doc->getElementsByTagName('activationStatus')->item(0)->nodeValue;
+            else:
+                $result['activationStatus'] = null;
+            endif;
+            if ($doc->getElementsByTagName('deviceFedMetInd')->item(0)):
+                $result['deviceFedMetInd'] = $doc->getElementsByTagName('deviceFedMetInd')->item(0)->nodeValue;
+            else:
+                $result['deviceFedMetInd'] = null;
+            endif;
+            if ($doc->getElementsByTagName('pocSwapInd')->item(0)):
+                if ($doc->getElementsByTagName('pocSwapInd')->item(0)->nodeValue = 'true'):
+                    $result['pocSwapInd'] = 1;
+                else:
+                    $result['pocSwapInd'] = 0;
+                endif;
+            else:
+                $result['pocSwapInd'] = null;
+            endif;
+            if ($doc->getElementsByTagName('iccId')->item(0)):
+                $result['iccId'] = $doc->getElementsByTagName('iccId')->item(0)->nodeValue;
+            else:
+                $result['iccId'] = null;
+            endif;
+            if ($doc->getElementsByTagName('uiccImsi')->item(0)):
+                $result['uiccImsi'] = $doc->getElementsByTagName('uiccImsi')->item(0)->nodeValue;
+            else:
+                $result['uiccImsi'] = null;
+            endif;
+            if ($doc->getElementsByTagName('uiccSku')->item(0)):
+                $result['uiccSku'] = $doc->getElementsByTagName('uiccSku')->item(0)->nodeValue;
+            else:
+                $result['uiccSku'] = null;
+            endif;
+            if ($doc->getElementsByTagName('uiccAvailabilityCode')->item(0)):
+                $result['uiccAvailabilityCode'] = $doc->getElementsByTagName('uiccAvailabilityCode')->item(0)->nodeValue;
+            else:
+                $result['uiccAvailabilityCode'] = null;
+            endif;
+            if ($doc->getElementsByTagName('uiccNotAvailableReasonCode')->item(0)):
+
+                $result['uiccNotAvailableReasonCode'] = $doc->getElementsByTagName('uiccNotAvailableReasonCode')->item(0)->nodeValue;
+            else:
+                $result['uiccNotAvailableReasonCode'] = null;
+            endif;
+            if ($doc->getElementsByTagName('uiccCompatibility')->item(0)):
+                $result['uiccCompatibility'] = $doc->getElementsByTagName('uiccCompatibility')->item(0)->nodeValue;
+            else:
+                $result['uiccCompatibility'] = null;
+            endif;
+            if ($doc->getElementsByTagName('uiccType')->item(0)):
+                $result['uiccType'] = $doc->getElementsByTagName('uiccType')->item(0)->nodeValue;
+            else:
+                $result['uiccType'] = null;
+            endif;
+            if ($doc->getElementsByTagName('actionCode')->item(0)):
+                $result['actionCode'] = $doc->getElementsByTagName('actionCode')->item(0)->nodeValue;
+            else:
+                $result['actionCode'] = null;
+            endif;
+        endif;
+
+      echo '<PRE>';
+      print_r($result);
+      echo '</PRE>';
